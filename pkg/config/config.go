@@ -6,7 +6,8 @@ const CellHeight = 8
 type dataWidth int
 
 type Config interface {
-	GetDataWidthInBytes() int
+	GetDataWidthInBytesAsInt() int
+	GetDataWidthInBytes() dataWidth
 	GetColorSimilarityThreshold() int
 	GetFlushAfterEveryWrite() bool
 	GetFlushAfterEveryCellWrite() bool
@@ -14,6 +15,11 @@ type Config interface {
 	GetImageHeight() int
 	GetWidthInCells() int
 	GetHeightInCells() int
+
+	SetDataWidthInBytes(dataWidth)
+	SetColorSimilarityThreshold(int)
+	SetFlushAfterEveryWrite(bool)
+	SetFlushAfterEveryCellWrite(bool)
 }
 
 // Data width in bits to bytes
@@ -55,8 +61,12 @@ type config struct {
 	heightInCells            int
 }
 
-func (c *config) GetDataWidthInBytes() int {
+func (c *config) GetDataWidthInBytesAsInt() int {
 	return int(c.dataWidthInBytes)
+}
+
+func (c *config) GetDataWidthInBytes() dataWidth {
+	return c.dataWidthInBytes
 }
 
 func (c *config) GetColorSimilarityThreshold() int {
@@ -82,6 +92,27 @@ func (c *config) GetImageHeight() int {
 func (c *config) GetWidthInCells() int {
 	return c.widthInCells
 }
+
 func (c *config) GetHeightInCells() int {
 	return c.heightInCells
+}
+
+func (c *config) SetDataWidthInBytes(dataWidthInBytes dataWidth) {
+	c.dataWidthInBytes = dataWidthInBytes
+	c.imageWidth = int(48 * dataWidthInBytes)
+	c.imageHeight = int(64 * dataWidthInBytes)
+	c.widthInCells = c.imageWidth / CellWidth
+	c.heightInCells = c.imageHeight / CellHeight
+}
+
+func (c *config) SetColorSimilarityThreshold(colorSimilarityThreshold int) {
+	c.colorSimilarityThreshold = colorSimilarityThreshold
+}
+
+func (c *config) SetFlushAfterEveryWrite(flushAfterEveryWrite bool) {
+	c.flushAfterEveryWrite = flushAfterEveryWrite
+}
+
+func (c *config) SetFlushAfterEveryCellWrite(flushAfterEveryCellWrite bool) {
+	c.flushAfterEveryCellWrite = flushAfterEveryCellWrite
 }
