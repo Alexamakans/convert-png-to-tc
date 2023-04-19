@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Alexamakans/convert-png-to-pc/pkg/config"
-	"github.com/Alexamakans/convert-png-to-pc/pkg/converter"
+	"github.com/Alexamakans/convert-png-to-tc/pkg/config"
+	"github.com/Alexamakans/convert-png-to-tc/pkg/converter"
 )
 
 const inputFilePath = "./images/test_img_96x128.png"

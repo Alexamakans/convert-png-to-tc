@@ -7,7 +7,7 @@ import (
 	"math"
 	"os"
 
-	"github.com/Alexamakans/convert-png-to-pc/pkg/config"
+	"github.com/Alexamakans/convert-png-to-tc/pkg/config"
 )
 
 const PIXEL_PACKET_IDENTIFIER = 0x10
