@@ -1,18 +1,19 @@
 package config
 
+const CellWidth = 6
+const CellHeight = 8
+
 type dataWidth int
 
 type Config interface {
-	getDataWidthInBytes() dataWidth
-	getColorSimilarityThreshold() int
-	getFlushAfterEveryWrite() bool
-	getFlushAfterEveryCellWrite() bool
-	getImageWidth() int
-	getImageHeight() int
-	getWidthInCells() int
-	getHeightInCells() int
-	getCellWidth() int
-	getCellHeight() int
+	GetDataWidthInBytes() int
+	GetColorSimilarityThreshold() int
+	GetFlushAfterEveryWrite() bool
+	GetFlushAfterEveryCellWrite() bool
+	GetImageWidth() int
+	GetImageHeight() int
+	GetWidthInCells() int
+	GetHeightInCells() int
 }
 
 // Data width in bits to bytes
@@ -31,8 +32,6 @@ func New(
 ) Config {
 	imageWidth := int(48 * dataWidthInBytes)
 	imageHeight := int(64 * dataWidthInBytes)
-	cellWidth := 6
-	cellHeight := 8
 	return &config{
 		dataWidthInBytes:         dataWidthInBytes,
 		colorSimilarityThreshold: colorSimilarityThreshold,
@@ -40,10 +39,8 @@ func New(
 		flushAfterEveryCellWrite: flushAfterEveryCellWrite,
 		imageWidth:               imageWidth,
 		imageHeight:              imageHeight,
-		widthInCells:             imageWidth / cellWidth,
-		heightInCells:            imageHeight / cellHeight,
-		cellWidth:                cellWidth,
-		cellHeight:               cellHeight,
+		widthInCells:             imageWidth / CellWidth,
+		heightInCells:            imageHeight / CellHeight,
 	}
 }
 
@@ -56,45 +53,35 @@ type config struct {
 	imageHeight              int
 	widthInCells             int
 	heightInCells            int
-	cellWidth                int
-	cellHeight               int
 }
 
-func (c *config) getDataWidthInBytes() dataWidth {
-	return c.dataWidthInBytes
+func (c *config) GetDataWidthInBytes() int {
+	return int(c.dataWidthInBytes)
 }
 
-func (c *config) getColorSimilarityThreshold() int {
+func (c *config) GetColorSimilarityThreshold() int {
 	return c.colorSimilarityThreshold
 }
 
-func (c *config) getFlushAfterEveryWrite() bool {
+func (c *config) GetFlushAfterEveryWrite() bool {
 	return c.flushAfterEveryWrite
 }
 
-func (c *config) getFlushAfterEveryCellWrite() bool {
+func (c *config) GetFlushAfterEveryCellWrite() bool {
 	return c.flushAfterEveryCellWrite
 }
 
-func (c *config) getImageWidth() int {
+func (c *config) GetImageWidth() int {
 	return c.imageWidth
 }
 
-func (c *config) getImageHeight() int {
+func (c *config) GetImageHeight() int {
 	return c.imageHeight
 }
 
-func (c *config) getWidthInCells() int {
+func (c *config) GetWidthInCells() int {
 	return c.widthInCells
 }
-func (c *config) getHeightInCells() int {
+func (c *config) GetHeightInCells() int {
 	return c.heightInCells
-}
-
-func (c *config) getCellWidth() int {
-	return c.cellWidth
-}
-
-func (c *config) getCellHeight() int {
-	return c.cellHeight
 }

@@ -11,7 +11,7 @@ import (
 )
 
 const inputFilePath = "./images/test_img_96x128.png"
-const outputFilePath = "./output/test_img_96x128.tc"
+const outputFilePath = "./outputs/test_img_96x128.tc"
 const PIXEL_PACKET_IDENTIFIER = 0x10
 const FLUSH_IDENTIFIER = 0x11
 const dataWidth = config.DataWidth16
@@ -71,8 +71,8 @@ func convertFile(inputFilePath string, outputFilePath string) error {
 func convert(img image.Image) []int {
 	var output []int
 
-	for cellX := 0; cellX < cfg.getWidthInCells(); cellX++ {
-		for cellY := 0; cellY < heightInCells; cellY++ {
+	for cellX := 0; cellX < cfg.GetWidthInCells(); cellX++ {
+		for cellY := 0; cellY < cfg.GetHeightInCells(); cellY++ {
 			cellPackets := processCell(img, cellX, cellY)
 			output = append(output, cellPackets...)
 		}
@@ -96,7 +96,7 @@ func at(img image.Image, x, y int) (r int, g int, b int) {
 func convertSliceToByteSlice(s []int) []byte {
 	var output []byte
 	for _, val := range s {
-		for i := 0; i < dataWidthInBytes; i++ {
+		for i := 0; i < cfg.GetDataWidthInBytes(); i++ {
 			output = append(output, byte((val>>(i*8))&0xFF))
 		}
 	}
@@ -122,9 +122,9 @@ type pixel struct {
 
 func processCell(img image.Image, cellX, cellY int) []int {
 	var pixels []pixel
-	for x := 0; x < cellWidth; x++ {
-		for y := 0; y < cellHeight; y++ {
-			_x, _y := cellX*cellWidth+x, cellY*cellHeight+y
+	for x := 0; x < config.CellWidth; x++ {
+		for y := 0; y < config.CellHeight; y++ {
+			_x, _y := cellX*config.CellWidth+x, cellY*config.CellHeight+y
 			r, g, b := at(img, _x, _y)
 			pixels = append(pixels, pixel{
 				c: color{r, g, b},
@@ -147,12 +147,12 @@ func processCell(img image.Image, cellX, cellY int) []int {
 	var output []int
 	for c, positions := range pixelMap {
 		r, g, b := c.r, c.g, c.b
-		positionBytes := [cellWidth]int{}
+		positionBytes := [config.CellWidth]int{}
 		for i := 0; i < len(positions); i += 2 {
 			x := positions[i]
 			y := positions[i+1]
-			inCellX := x % cellWidth
-			inCellY := y % cellHeight
+			inCellX := x % config.CellWidth
+			inCellY := y % config.CellHeight
 			positionBytes[inCellX] |= 1 << inCellY
 		}
 
