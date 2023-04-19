@@ -5,8 +5,6 @@ type dataWidth int
 type Config interface {
 	getDataWidthInBytes() dataWidth
 	getColorSimilarityThreshold() int
-	getInputFilePath() string
-	getOutputFilePath() string
 	getFlushAfterEveryWrite() bool
 	getFlushAfterEveryCellWrite() bool
 	getImageWidth() int
@@ -28,8 +26,6 @@ const (
 func New(
 	dataWidthInBytes dataWidth,
 	colorSimilarityThreshold int,
-	inputFilePath string,
-	outputFilePath string,
 	flushAfterEveryWrite bool,
 	flushAfterEveryCellWrite bool,
 ) Config {
@@ -40,8 +36,6 @@ func New(
 	return &config{
 		dataWidthInBytes:         dataWidthInBytes,
 		colorSimilarityThreshold: colorSimilarityThreshold,
-		inputFilePath:            inputFilePath,
-		outputFilePath:           outputFilePath,
 		flushAfterEveryWrite:     flushAfterEveryWrite,
 		flushAfterEveryCellWrite: flushAfterEveryCellWrite,
 		imageWidth:               imageWidth,
@@ -56,8 +50,6 @@ func New(
 type config struct {
 	dataWidthInBytes         dataWidth
 	colorSimilarityThreshold int
-	inputFilePath            string
-	outputFilePath           string
 	flushAfterEveryWrite     bool
 	flushAfterEveryCellWrite bool
 	imageWidth               int
@@ -74,14 +66,6 @@ func (c *config) getDataWidthInBytes() dataWidth {
 
 func (c *config) getColorSimilarityThreshold() int {
 	return c.colorSimilarityThreshold
-}
-
-func (c *config) getInputFilePath() string {
-	return c.inputFilePath
-}
-
-func (c *config) getOutputFilePath() string {
-	return c.outputFilePath
 }
 
 func (c *config) getFlushAfterEveryWrite() bool {
