@@ -50,6 +50,19 @@ func New(
 	}
 }
 
+func NewDefaultConfig() Config {
+	return &config{
+		dataWidthInBytes:         defaultConfig.GetDataWidthInBytes(),
+		colorSimilarityThreshold: defaultConfig.GetColorSimilarityThreshold(),
+		flushAfterEveryWrite:     defaultConfig.GetFlushAfterEveryWrite(),
+		flushAfterEveryCellWrite: defaultConfig.GetFlushAfterEveryCellWrite(),
+		imageWidth:               defaultConfig.GetImageWidth(),
+		imageHeight:              defaultConfig.GetImageHeight(),
+		widthInCells:             defaultConfig.GetWidthInCells(),
+		heightInCells:            defaultConfig.GetHeightInCells(),
+	}
+}
+
 type config struct {
 	dataWidthInBytes         dataWidth
 	colorSimilarityThreshold int

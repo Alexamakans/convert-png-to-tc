@@ -25,7 +25,7 @@ type Converter struct {
 
 func New() Converter {
 	return Converter{
-		Config: config.DefaultConfig,
+		Config: config.NewDefaultConfig(),
 	}
 }
 
